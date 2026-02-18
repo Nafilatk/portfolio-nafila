@@ -27,7 +27,7 @@ const Contact = () => {
     }, []);
 
     return (
-        <section ref={containerRef} className="w-full min-h-screen bg-black flex flex-col justify-center items-center px-6 py-24 font-anton text-white border-t border-neutral-900">
+        <section ref={containerRef} className="w-full min-h-screen bg-[var(--background)] flex flex-col justify-center items-center px-6 py-24 font-anton text-white border-t border-neutral-900">
             <h2 className="text-[12vw] leading-none text-[#E22D35] mix-blend-exclusion end-credit text-center mb-12 select-none">
                 THE END
             </h2>
