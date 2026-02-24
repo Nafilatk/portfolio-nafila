@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono, Anton } from "next/font/google";
+import { Geist, Geist_Mono, Bebas_Neue, Italianno } from "next/font/google";
 import "./globals.css";
 import ClickSpark from "./components/ClickSpark";
 
@@ -13,10 +13,16 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-const anton = Anton({
+const bebas = Bebas_Neue({
   weight: "400",
   subsets: ["latin"],
-  variable: "--font-anton",
+  variable: "--font-bebas",
+});
+
+const italianno = Italianno({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-italianno",
 });
 
 export const metadata: Metadata = {
@@ -32,7 +38,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} ${anton.variable} antialiased`}
+        className={`${geistSans.variable} ${geistMono.variable} ${bebas.variable} ${italianno.variable} antialiased`}
       >
         <ClickSpark />
         {children}

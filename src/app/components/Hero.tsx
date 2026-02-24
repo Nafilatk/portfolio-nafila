@@ -1,222 +1,270 @@
 "use client";
 
-import React, { useRef, useLayoutEffect } from "react";
+import React, { useRef, useLayoutEffect, useState } from "react";
 import gsap from "gsap";
-import Image from "next/image";
 
 export default function Hero() {
   const container = useRef<HTMLDivElement>(null);
-  const characterRef = useRef<HTMLDivElement>(null);
-  const detailsRef = useRef<HTMLDivElement>(null);
+  const leftTextRef = useRef<HTMLDivElement>(null);
+  const lanyardContainerRef = useRef<HTMLDivElement>(null);
+  const cardOuterRef = useRef<HTMLDivElement>(null);
+  const cardInnerRef = useRef<HTMLDivElement>(null); // New ref for the flip
+  const glareRef = useRef<HTMLDivElement>(null);
+
+  const [isHovering, setIsHovering] = useState(false);
+  const [isFlipped, setIsFlipped] = useState(false); // Flip state
 
   useLayoutEffect(() => {
     const ctx = gsap.context(() => {
       const tl = gsap.timeline();
 
-      // Entrance Animation
-      tl.from(".scrolling-bg", {
+      tl.from(leftTextRef.current?.children || [], {
+        y: 40,
         opacity: 0,
-        filter: "blur(20px)",
-        duration: 2,
-      })
-        .from(
-          characterRef.current,
-          {
-            y: 150,
-            opacity: 0,
-            duration: 1.5,
-            ease: "power4.out",
-          },
-          "-=1.5"
-        )
-        .from(
-          ".tech-tag",
-          {
-            y: 20,
-            opacity: 0,
-            stagger: 0.1,
-            ease: "back.out(1.7)",
-          },
-          "-=0.5"
-        )
-        .from(
-          detailsRef.current,
-          {
-            x: -30,
-            opacity: 0,
-            duration: 1,
-          },
-          "-=0.8"
-        );
+        stagger: 0.2,
+        duration: 1.2,
+        ease: "power4.out",
+        delay: 0.2,
+      });
 
-      // Mouse Parallax
-      const handleMouseMove = (e: MouseEvent) => {
-        const { clientX, clientY } = e;
-        const xPos = clientX / window.innerWidth - 0.5;
-        const yPos = clientY / window.innerHeight - 0.5;
-
-        gsap.to(characterRef.current, {
-          x: xPos * 40,
-          y: yPos * 20,
-          duration: 1,
-          ease: "power2.out",
-        });
-
-        gsap.to(".scrolling-bg", {
-          x: -xPos * 20,
-          duration: 1.5,
-          ease: "power2.out",
-        });
-      };
-
-      window.addEventListener("mousemove", handleMouseMove);
-      return () => window.removeEventListener("mousemove", handleMouseMove);
+      tl.from(
+        lanyardContainerRef.current,
+        {
+          y: -200,
+          rotationZ: 15,
+          opacity: 0,
+          duration: 2,
+          ease: "elastic.out(1, 0.4)",
+        },
+        "-=0.8"
+      );
     }, container);
 
     return () => ctx.revert();
   }, []);
 
+  // Handle the tap/click to flip
+  const handleFlip = () => {
+    setIsFlipped(!isFlipped);
+
+    // GSAP flip animation
+    gsap.to(cardInnerRef.current, {
+      rotateY: isFlipped ? 0 : 180,
+      duration: 0.8,
+      ease: "back.out(1.2)",
+    });
+  };
+
+  const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
+    if (!cardOuterRef.current || !lanyardContainerRef.current || !glareRef.current) return;
+
+    const rect = cardOuterRef.current.getBoundingClientRect();
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+
+    const centerX = rect.width / 2;
+    const centerY = rect.height / 2;
+
+    const rotateX = ((y - centerY) / centerY) * -15;
+    const rotateY = ((x - centerX) / centerX) * 15;
+    const swingAngle = ((x - centerX) / centerX) * 5;
+
+    // Apply tilt to the OUTER container so it doesn't fight the flip
+    gsap.to(cardOuterRef.current, {
+      rotateX: rotateX,
+      rotateY: rotateY,
+      duration: 0.4,
+      ease: "power2.out",
+    });
+
+    gsap.to(lanyardContainerRef.current, {
+      rotateZ: swingAngle,
+      duration: 0.8,
+      ease: "power2.out",
+      transformOrigin: "top center",
+    });
+
+    gsap.to(glareRef.current, {
+      x: (x / rect.width) * 100 - 50,
+      y: (y / rect.height) * 100 - 50,
+      opacity: 1,
+      duration: 0.4,
+    });
+  };
+
+  const handleMouseLeave = () => {
+    setIsHovering(false);
+
+    gsap.to(cardOuterRef.current, {
+      rotateX: 0,
+      rotateY: 0,
+      duration: 1,
+      ease: "elastic.out(1, 0.3)",
+    });
+
+    gsap.to(lanyardContainerRef.current, {
+      rotateZ: 0,
+      duration: 2,
+      ease: "elastic.out(1, 0.2)",
+    });
+
+    gsap.to(glareRef.current, {
+      opacity: 0,
+      duration: 0.4,
+    });
+  };
+
   return (
     <main
       ref={container}
-      className="relative h-screen w-full overflow-hidden text-white font-sans"
+      className="relative flex h-screen w-full items-center justify-between overflow-hidden bg-[#FAFAFA] text-black font-sans selection:bg-blue-200 selection:text-blue-900"
     >
-      {/* 🔥 Background Image */}
-      <div className="absolute inset-0 z-0">
-        <Image
-          src="/Hero.jpeg"
-          alt="Background"
-          fill
-          priority
-          className="object-cover brightness-85 contrast-110 saturate-125"
-        />
-      </div>
-
-      {/* 🔥 Dark Cinematic Overlay */}
-      <div className="absolute inset-0 bg-black/50 z-10"></div>
-
-      {/* 🔥 Infinite Scrolling Text */}
-      <div className="scrolling-bg absolute inset-0 flex flex-col justify-center overflow-hidden pointer-events-none z-20">
-        <div className="flex animate-scroll whitespace-nowrap text-[25vw] font-black uppercase tracking-tighter leading-none opacity-10 outline-text">
-          <span className="mr-20">Frontend Developer</span>
-          <span className="mr-20">Frontend Developer</span>
-        </div>
-        <div className="flex animate-scroll-reverse whitespace-nowrap text-[25vw] font-black uppercase tracking-tighter leading-none opacity-5">
-          <span className="mr-20">Creative Engineer</span>
-          <span className="mr-20">Creative Engineer</span>
-        </div>
-      </div>
-
-      {/* 🔥 Hero Character Image */}
       <div
-        ref={characterRef}
-        className="absolute inset-0 z-30 flex items-end justify-center pointer-events-none"
-      >
-        <div className="relative w-[45vw] max-w-[600px] h-[85vh]">
-          <Image
-            src="/heroimage.jpeg"
-            alt="Hero Character"
-            fill
-            priority
-            className="object-contain object-bottom"
-            style={{
-              maskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
-              WebkitMaskImage: "linear-gradient(to bottom, black 70%, transparent 100%)",
-            }}
-          />
+        className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none"
+        style={{
+          backgroundImage: "radial-gradient(#000 1px, transparent 1px)",
+          backgroundSize: "24px 24px",
+        }}
+      ></div>
+
+      {/* LEFT: Text Content */}
+      <div className="relative z-10 flex w-1/2 flex-col pl-12 md:pl-24 lg:pl-32">
+        <div ref={leftTextRef} className="space-y-4">
+          <div className="space-y-[-10px]">
+            <h1 className="text-6xl font-bold tracking-tighter md:text-8xl lg:text-9xl text-gray-900">
+              NAFILA
+            </h1>
+            <h1 className="text-6xl font-bold tracking-tighter text-blue-600 md:text-8xl lg:text-9xl">
+              TK
+            </h1>
+          </div>
+
+          <div className="pt-4">
+            <p className="text-sm font-medium uppercase tracking-[0.4em] text-gray-500 md:text-base">
+              Frontend Developer
+            </p>
+            <div className="mt-4 h-[3px] w-12 bg-blue-600"></div>
+          </div>
         </div>
       </div>
 
-      {/* 🔥 Tech Tags */}
-      <div className="absolute top-1/2 -translate-y-1/2 w-full flex justify-between px-12 z-40 pointer-events-none">
-        <div className="flex flex-col gap-4">
-          <span className="tech-tag bg-white/5 border border-white/10 px-4 py-2 rounded-full text-[10px] tracking-widest backdrop-blur-md uppercase">
-            React.js
-          </span>
-          <span className="tech-tag bg-white/5 border border-white/10 px-4 py-2 rounded-full text-[10px] tracking-widest backdrop-blur-md uppercase">
-            Next.js
-          </span>
-        </div>
-        <div className="flex flex-col gap-4 items-end">
-          <span className="tech-tag bg-white/5 border border-white/10 px-4 py-2 rounded-full text-[10px] tracking-widest backdrop-blur-md uppercase">
-            GSAP / Framer
-          </span>
-          <span className="tech-tag bg-white/5 border border-white/10 px-4 py-2 rounded-full text-[10px] tracking-widest backdrop-blur-md uppercase">
-            TypeScript
-          </span>
+      {/* RIGHT: Interactive Lanyard */}
+      <div className="relative z-20 flex h-full w-1/2 items-start justify-center pt-[-50px]">
+        <div
+          ref={lanyardContainerRef}
+          className="relative flex flex-col items-center"
+          style={{ transformOrigin: "top center", perspective: "1200px" }}
+        >
+          {/* Lanyard Strap hardware... */}
+          <div className="relative -mt-40 flex flex-col items-center">
+            <div className="h-64 w-5 rounded-full bg-gradient-to-b from-gray-300 via-gray-400 to-gray-600 shadow-inner"></div>
+            <div className="z-10 -mt-2 flex h-10 w-8 flex-col items-center justify-start rounded-md bg-gradient-to-b from-gray-300 to-gray-500 shadow-lg border border-gray-400">
+              <div className="mt-1 h-3 w-4 rounded-sm bg-gray-200 shadow-inner"></div>
+              <div className="mt-1 h-4 w-2 rounded-full bg-gradient-to-b from-gray-400 to-gray-600"></div>
+            </div>
+            <div className="z-0 -mt-2 h-4 w-12 rounded-t-xl bg-white/20 backdrop-blur-md border border-white/40 shadow-sm"></div>
+          </div>
+
+          {/* Outer Card Wrapper (Handles 3D Hover Tilt) */}
+          <div
+            ref={cardOuterRef}
+            className="group relative mt-1 cursor-pointer"
+            style={{ transformStyle: "preserve-3d" }}
+            onMouseMove={handleMouseMove}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={handleMouseLeave}
+            onClick={handleFlip}
+          >
+            <div
+              className={`absolute -inset-2 rounded-3xl bg-blue-500/20 blur-2xl transition-opacity duration-500 ${isHovering ? 'opacity-100' : 'opacity-40'}`}
+              style={{ transform: "translateZ(-20px)" }}
+            ></div>
+
+            {/* Inner Card Wrapper (Handles 180deg Flip) */}
+            <div
+              ref={cardInnerRef}
+              className="relative h-[420px] w-[300px] rounded-2xl shadow-2xl"
+              style={{ transformStyle: "preserve-3d" }}
+            >
+
+              {/* === FRONT OF CARD === */}
+              <div
+                className="absolute inset-0 overflow-hidden rounded-2xl bg-white/80 p-3 backdrop-blur-xl border border-white/50"
+                style={{ backfaceVisibility: "hidden" }}
+              >
+                <div className="relative h-[70%] w-full overflow-hidden rounded-xl bg-gray-100">
+                  <img
+                    src="/heroimage.jpeg"
+                    alt="Nafila TK"
+                    className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                </div>
+
+                <div className="absolute bottom-6 left-6 right-6">
+                  <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">ID: DEV-2025</p>
+                  <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nafila TK</h2>
+                  <p className="text-sm font-medium text-gray-500 mt-0.5">Frontend Developer</p>
+                </div>
+
+                <div
+                  ref={glareRef}
+                  className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 mix-blend-overlay transition-opacity duration-300"
+                  style={{
+                    background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 60%)",
+                    transform: "scale(2)",
+                  }}
+                ></div>
+              </div>
+
+              {/* === BACK OF CARD === */}
+              <div
+                className="absolute inset-0 overflow-hidden rounded-2xl bg-[#0f172a] p-6 text-white border border-gray-700/50 flex flex-col"
+                style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
+              >
+                <div className="flex items-center justify-between mb-6">
+                  <div className="w-12 h-12 bg-blue-600/20 rounded-full flex items-center justify-center">
+                    <span className="font-bold text-blue-400">NTK</span>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-[10px] text-gray-400 uppercase tracking-widest">Access Level</p>
+                    <p className="text-sm font-bold text-blue-400">ADMIN</p>
+                  </div>
+                </div>
+
+                <div className="space-y-4 flex-grow">
+                  <div>
+                    <h3 className="text-xs text-gray-400 uppercase tracking-widest mb-2">Core Tech Stack</h3>
+                    <div className="flex flex-wrap gap-2">
+                      {['React.js', 'Next.js', 'TypeScript', 'GSAP', 'Figma'].map((tech) => (
+                        <span key={tech} className="text-xs bg-white/10 px-2 py-1 rounded-md border border-white/5">
+                          {tech}
+                        </span>
+                      ))}
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="text-xs text-gray-400 uppercase tracking-widest mb-2">Currently</h3>
+                    <p className="text-sm">React Intern @ Bridgeon Solutions</p>
+                  </div>
+                </div>
+
+                {/* Simulated Barcode */}
+                <div className="mt-auto pt-4 border-t border-white/10">
+                  <div className="w-full h-8 flex justify-between items-center opacity-50">
+                    {[...Array(30)].map((_, i) => (
+                      <div key={i} className={`h-full bg-white ${[0, 2, 5, 8, 12, 15, 19, 22, 26, 28].includes(i % 30) ? 'w-1' : 'w-0.5'}`}></div>
+                    ))}
+                  </div>
+                  <p className="text-center text-[8px] text-gray-500 tracking-[0.3em] mt-2">101101001101</p>
+                </div>
+              </div>
+
+            </div>
+          </div>
         </div>
       </div>
-
-      {/* 🔥 Details Bottom Left */}
-      <div
-        ref={detailsRef}
-        className="absolute bottom-12 left-10 z-50 max-w-md"
-      >
-        <h2 className="text-5xl font-black mb-4 tracking-tighter italic">
-          NAFILA.
-        </h2>
-        <div className="h-[2px] w-20 bg-red-600 mb-6"></div>
-        <p className="text-xs uppercase tracking-[0.3em] opacity-50 mb-2 font-bold">
-          Based in India
-        </p>
-        <p className="text-sm leading-relaxed text-gray-300 font-light max-w-xs">
-          Crafting immersive digital experiences through clean code and fluid
-          animations. Specializing in creative frontend solutions.
-        </p>
-      </div>
-
-      {/* 🔥 CTA */}
-      <div className="absolute bottom-12 right-10 z-50 flex flex-col items-end">
-        <div className="relative group cursor-pointer">
-          <div className="absolute -inset-4 border border-red-600/30 rounded-full animate-spin-slow group-hover:border-red-600 transition-colors"></div>
-          <button className="w-24 h-24 rounded-full bg-white text-black text-[10px] font-bold uppercase tracking-widest transition-transform hover:scale-110">
-            View
-            <br />
-            Works
-          </button>
-        </div>
-      </div>
-
-      {/* 🔥 Animations */}
-      <style jsx global>{`
-        .outline-text {
-          -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-          color: transparent;
-        }
-        @keyframes scroll {
-          from {
-            transform: translateX(0);
-          }
-          to {
-            transform: translateX(-50%);
-          }
-        }
-        @keyframes scroll-reverse {
-          from {
-            transform: translateX(-50%);
-          }
-          to {
-            transform: translateX(0);
-          }
-        }
-        @keyframes spin-slow {
-          from {
-            transform: rotate(0deg);
-          }
-          to {
-            transform: rotate(360deg);
-          }
-        }
-        .animate-scroll {
-          animation: scroll 30s linear infinite;
-        }
-        .animate-scroll-reverse {
-          animation: scroll-reverse 40s linear infinite;
-        }
-        .animate-spin-slow {
-          animation: spin-slow 8s linear infinite;
-        }
-      `}</style>
     </main>
   );
 }

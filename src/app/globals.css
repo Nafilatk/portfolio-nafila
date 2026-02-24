@@ -2,7 +2,7 @@
 
 :root {
   --background: #0f0303;
-  --foreground: #ededed;
+  --foreground: #000000;
   --deadpool-red: #E22D35;
 }
 
@@ -12,13 +12,14 @@
   --color-deadpool-red: var(--deadpool-red);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-  --font-anton: var(--font-anton);
+  --font-bebas: var(--font-bebas);
+  --font-italianno: var(--font-italianno);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #000000;
   }
 }
 
@@ -33,4 +34,18 @@ body {
   to {
     width: 100%;
   }
+}
+
+.outline-text {
+  -webkit-text-stroke: 1px rgba(255, 255, 255, 0.2);
+  color: transparent;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+::selection {
+  background-color: #2563eb;
+  color: white;
 }
