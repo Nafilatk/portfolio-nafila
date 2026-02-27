@@ -50,8 +50,9 @@ export default function Hero() {
     // GSAP flip animation
     gsap.to(cardInnerRef.current, {
       rotateY: isFlipped ? 0 : 180,
-      duration: 0.8,
-      ease: "back.out(1.2)",
+      duration: 1.2,
+      ease: "power2.inOut",
+      overwrite: "auto",
     });
   };
 
@@ -65,30 +66,34 @@ export default function Hero() {
     const centerX = rect.width / 2;
     const centerY = rect.height / 2;
 
-    const rotateX = ((y - centerY) / centerY) * -15;
-    const rotateY = ((x - centerX) / centerX) * 15;
-    const swingAngle = ((x - centerX) / centerX) * 5;
+    const rotateX = ((y - centerY) / centerY) * -8;
+    const rotateY = ((x - centerX) / centerX) * 8;
+    const swingAngle = ((x - centerX) / centerX) * 3;
 
     // Apply tilt to the OUTER container so it doesn't fight the flip
     gsap.to(cardOuterRef.current, {
       rotateX: rotateX,
       rotateY: rotateY,
-      duration: 0.4,
-      ease: "power2.out",
+      duration: 0.8,
+      ease: "sine.out",
+      overwrite: "auto",
     });
 
     gsap.to(lanyardContainerRef.current, {
       rotateZ: swingAngle,
-      duration: 0.8,
-      ease: "power2.out",
+      duration: 1.1,
+      ease: "sine.out",
       transformOrigin: "top center",
+      overwrite: "auto",
     });
 
     gsap.to(glareRef.current, {
       x: (x / rect.width) * 100 - 50,
       y: (y / rect.height) * 100 - 50,
       opacity: 1,
-      duration: 0.4,
+      duration: 0.7,
+      ease: "sine.out",
+      overwrite: "auto",
     });
   };
 
@@ -117,7 +122,7 @@ export default function Hero() {
   return (
     <main
       ref={container}
-      className="relative flex h-screen w-full items-center justify-between overflow-hidden bg-[#FAFAFA] text-black font-sans selection:bg-blue-200 selection:text-blue-900"
+      className="relative flex h-screen w-full items-center justify-between overflow-hidden  text-black font-sans selection:bg-blue-200 selection:text-blue-900"
     >
       <div
         className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none"
@@ -131,12 +136,12 @@ export default function Hero() {
       <div className="relative z-10 flex w-1/2 flex-col pl-12 md:pl-24 lg:pl-32">
         <div ref={leftTextRef} className="space-y-4">
           <div className="space-y-[-10px]">
-            <h1 className="text-6xl font-bold tracking-tighter md:text-8xl lg:text-9xl text-gray-900">
+            <h1 className="text-4xl font-bold tracking-tighter md:text-8xl lg:text-9xl text-gray-200">
               NAFILA
             </h1>
-            <h1 className="text-6xl font-bold tracking-tighter text-blue-600 md:text-8xl lg:text-9xl">
+            <span className="text-4xl font-bold tracking-tighter text-red-800 md:text-8xl lg:text-9xl">
               TK
-            </h1>
+            </span>
           </div>
 
           <div className="pt-4">
@@ -189,22 +194,21 @@ export default function Hero() {
 
               {/* === FRONT OF CARD === */}
               <div
-                className="absolute inset-0 overflow-hidden rounded-2xl bg-white/80 p-3 backdrop-blur-xl border border-white/50"
+                className="absolute inset-0 overflow-hidden rounded-2xl bg-black p-3 backdrop-blur-xl border border-red-700/50"
                 style={{ backfaceVisibility: "hidden" }}
               >
-                <div className="relative h-[70%] w-full overflow-hidden rounded-xl bg-gray-100">
+                <div className="relative h-[75%] w-full overflow-hidden rounded-xl bg-gray-100">
                   <img
                     src="/heroimage.jpeg"
                     alt="Nafila TK"
                     className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
                   />
-                  <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                  <div className="absolute inset-0 "></div>
                 </div>
 
                 <div className="absolute bottom-6 left-6 right-6">
-                  <p className="text-xs font-bold uppercase tracking-widest text-blue-600 mb-1">ID: DEV-2025</p>
-                  <h2 className="text-2xl font-bold tracking-tight text-gray-900">Nafila TK</h2>
-                  <p className="text-sm font-medium text-gray-500 mt-0.5">Frontend Developer</p>
+                  <h2 className="text-2xl font-bold tracking-tight text-gray-300">Nafila TK</h2>
+                  <p className="text-sm font-medium text-red-800 mt-0.5">Frontend Developer</p>
                 </div>
 
                 <div
@@ -219,16 +223,16 @@ export default function Hero() {
 
               {/* === BACK OF CARD === */}
               <div
-                className="absolute inset-0 overflow-hidden rounded-2xl bg-[#0f172a] p-6 text-white border border-gray-700/50 flex flex-col"
+                className="absolute inset-0 overflow-hidden rounded-2xl bg-[#000000] p-6 text-white border border-red-700/50 flex flex-col"
                 style={{ backfaceVisibility: "hidden", transform: "rotateY(180deg)" }}
               >
                 <div className="flex items-center justify-between mb-6">
-                  <div className="w-12 h-12 bg-blue-600/20 rounded-full flex items-center justify-center">
-                    <span className="font-bold text-blue-400">NTK</span>
+                  <div className="w-12 h-12 bg-red-600/20 rounded-full flex items-center justify-center">
+                    <span className=" font-bold text-red-800">NT</span>
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] text-gray-400 uppercase tracking-widest">Access Level</p>
-                    <p className="text-sm font-bold text-blue-400">ADMIN</p>
+                    <p className="text-sm font-bold text-red-800">ADMIN</p>
                   </div>
                 </div>
 
@@ -246,7 +250,7 @@ export default function Hero() {
 
                   <div>
                     <h3 className="text-xs text-gray-400 uppercase tracking-widest mb-2">Currently</h3>
-                    <p className="text-sm">React Intern @ Bridgeon Solutions</p>
+                    <p className="text-sm">Frontend Developer Intern @ Bridgeon Solutions</p>
                   </div>
                 </div>
 
