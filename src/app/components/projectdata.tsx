@@ -7,7 +7,7 @@ import ProjectCard from "@/app/components/Projects";
 
 const projectsData = [
   {
-    title: "E-Commerce Dashboard",
+    title: "E-Commerce ",
     tech: "React.js • JavaScript • Tailwind CSS • Redux Toolkit • Json-server",
     desc: "A high-performance User and admin dashboard with real-time data visualization, advanced filtering, and global state management.",
     url: "https://glamcart-dicc.vercel.app/",
@@ -37,28 +37,34 @@ export default function HorizontalProjects() {
   const sliderRef = useRef<HTMLDivElement>(null);
 
   useGSAP(() => {
-    // 1. Register the plugin
     gsap.registerPlugin(ScrollTrigger);
 
+    const trigger = triggerRef.current;
     const slider = sliderRef.current;
 
-    // 2. Create the horizontal scroll animation
-    if (slider) {
-      gsap.to(slider, {
-        // Move the slider to the left by its total scrollable width
-        x: () => -(slider.scrollWidth - window.innerWidth) + "px",
-        ease: "none",
-        scrollTrigger: {
-          trigger: triggerRef.current,
-          pin: true, // Pin the section to the screen
-          scrub: 1,  // Smooth scrubbing (1 second catch-up time)
-          invalidateOnRefresh: true, // Recalculates on window resize
-          // The distance you have to scroll to finish the animation
-          end: () => "+=" + slider.scrollWidth, 
-        },
-      });
-    }
-  }, { scope: triggerRef });
+    if (!trigger || !slider) return;
+
+    const scrollDistance = Math.max(0, slider.scrollWidth - trigger.clientWidth);
+    if (scrollDistance === 0) return;
+
+    const tween = gsap.to(slider, {
+      x: () => `-${scrollDistance}px`,
+      ease: "none",
+      scrollTrigger: {
+        trigger,
+        pin: trigger,
+        scrub: 1,
+        invalidateOnRefresh: true,
+        anticipatePin: 1,
+        end: () => `+=${scrollDistance}`,
+      },
+    });
+
+    return () => {
+      tween.scrollTrigger?.kill();
+      tween.kill();
+    };
+  }, { scope: triggerRef, dependencies: [], revertOnUpdate: true });
 
   return (
     // The trigger container takes up the full screen height
