@@ -139,7 +139,7 @@ export default function Hero() {
             <h1 className="text-4xl font-bold tracking-tighter md:text-8xl lg:text-9xl text-gray-200">
               NAFILA
             </h1>
-            <span className="text-4xl font-bold tracking-tighter text-red-800 md:text-8xl lg:text-9xl">
+            <span className="text-4xl font-bold tracking-tighter text-red-600 md:text-8xl lg:text-9xl">
               TK
             </span>
           </div>

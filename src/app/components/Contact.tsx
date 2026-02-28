@@ -31,7 +31,7 @@ const Contact = () => {
             className="w-full min-h-screen bg-black flex flex-col justify-center items-center px-6 py-24 font-sans text-white border-t border-zinc-900"
         >
             {/* Keeping your font-anton class for the cinematic heading */}
-            <h2 className="text-[12vw] leading-none text-[#E22D35] font-anton end-credit text-center mb-12 select-none tracking-tight mix-blend-exclusion">
+            <h2 className="text-[12vw] leading-none text-red-600 font-anton end-credit text-center mb-12 select-none tracking-tight mix-blend-exclusion">
                 THE END
             </h2>
 

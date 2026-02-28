@@ -26,7 +26,7 @@ export default function Skills() {
     <section id="skills" className=" text-white py-20">
       <div className="container mx-auto px-6 md:px-12 lg:px-24">
         <div className="max-w-3xl">
-          <p className="text-xs uppercase tracking-[0.4em] text-red-700 mb-3">Capabilities</p>
+          <p className="text-xs uppercase tracking-[0.4em] text-red-600 mb-3">Capabilities</p>
           <h2 className="text-4xl md:text-5xl font-bold leading-tight">
             Skills and Tools I Use to Build Modern Web Experiences
           </h2>
