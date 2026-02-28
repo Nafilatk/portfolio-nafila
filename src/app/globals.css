@@ -1,9 +1,8 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0f0303;
-  --foreground: #000000;
-  --deadpool-red: #E22D35;
+  --background: black;
+  --foreground: black;
 }
 
 @theme inline {
@@ -18,8 +17,8 @@
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #000000;
+    --background: black;
+    --foreground: black;
   }
 }
 
@@ -45,7 +44,3 @@ html {
   scroll-behavior: smooth;
 }
 
-::selection {
-  background-color: #2563eb;
-  color: white;
-}

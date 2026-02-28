@@ -122,7 +122,7 @@ export default function Hero() {
   return (
     <main
       ref={container}
-      className="relative flex h-screen w-full items-center justify-between overflow-hidden  text-black font-sans selection:bg-blue-200 selection:text-blue-900"
+      className="relative  flex h-screen w-full items-center justify-between overflow-hidden  text-black font-sans selection:bg-blue-200 selection:text-blue-900"
     >
       <div
         className="absolute inset-0 z-0 opacity-[0.04] pointer-events-none"

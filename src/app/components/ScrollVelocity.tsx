@@ -60,15 +60,14 @@ function ParallaxText({ children, baseVelocity = 100 }: ParallaxProps) {
 
 export default function ScrollVelocity() {
   return (
-    <section className="relative w-full bg-[#111] text-white py-12 overflow-hidden">
+    <section className="relative w-full  text-white py-10 overflow-hidden">
       {/* Decorative Top Border */}
-      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-30"></div>
+      <div className="absolute top-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparentto-transparent opacity-30"></div>
 
-      <ParallaxText baseVelocity={-2}>React.js Next.js TypeScript GSAP Figma</ParallaxText>
       <ParallaxText baseVelocity={2}>Frontend Developer Expert</ParallaxText>
 
       {/* Decorative Bottom Border */}
-      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent via-gray-500 to-transparent opacity-30"></div>
+      <div className="absolute bottom-0 left-0 w-full h-[1px] bg-gradient-to-r from-transparent to-transparent opacity-30"></div>
     </section>
   );
 }

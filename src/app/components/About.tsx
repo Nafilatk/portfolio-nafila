@@ -9,7 +9,6 @@ import { ScrollToPlugin } from "gsap/ScrollToPlugin";
 export default function AboutPage() {
   const textRef = useRef<HTMLDivElement>(null);
   const scrollAreaRef = useRef<HTMLDivElement>(null);
-  const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     gsap.registerPlugin(ScrollTrigger, ScrollToPlugin);
@@ -64,7 +63,7 @@ export default function AboutPage() {
   }, []);
 
   return (
-    <section className="h-140 bg-[#050505] text-white pt-10 pb-10 overflow-hidden">
+    <section className="h-140  text-white pt-10 pb-10 overflow-hidden">
       <div className="container mx-auto px-6 md:px-12 lg:px-24">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-24 items-start">
 
@@ -94,7 +93,7 @@ export default function AboutPage() {
           {/* RIGHT SIDE - Scrollable Animated Text */}
           <div
             ref={scrollAreaRef}
-            className="lg:col-span-7 h-140px overflow-y-auto px-4 md:px-5 lg:px-16 py-10 lg:py-20 scroll-smooth"
+            className="lg:col-span-7 h-140px overflow-y-auto px-4 md:px-5 lg:px-16 py-10 lg:py-20 scroll-smooth [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-track]:rounded-full [&::-webkit-scrollbar-track]:bg-[#1a1a1a] [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-[#991b1b] hover:[&::-webkit-scrollbar-thumb]:bg-[#b91c1c]"
             style={{
               scrollBehavior: 'smooth',
               scrollbarWidth: 'thin',
@@ -139,25 +138,6 @@ export default function AboutPage() {
 
         </div>
       </div>
-
-      {/* Custom scrollbar styles */}
-      <style jsx>{`
-        .lg\\:col-span-7::-webkit-scrollbar {
-          width: 6px;
-        }
-        .lg\\:col-span-7::-webkit-scrollbar-track {
-          background: #1a1a1a;
-          border-radius: 10px;
-        }
-        .lg\\:col-span-7::-webkit-scrollbar-thumb {
-          background: #991b1b;
-          border-radius: 10px;
-          transition: all 0.3s ease;
-        }
-        .lg\\:col-span-7::-webkit-scrollbar-thumb:hover {
-          background: #b91c1c;
-        }
-      `}</style>
     </section>
   );
 }
