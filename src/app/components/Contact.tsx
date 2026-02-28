@@ -1,57 +1,83 @@
 'use client';
-import React, { useLayoutEffect, useRef } from 'react';
+import React, { useRef } from 'react';
 import gsap from 'gsap';
 import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import { useGSAP } from '@gsap/react';
 
 const Contact = () => {
     const containerRef = useRef<HTMLDivElement>(null);
 
-    useLayoutEffect(() => {
+    useGSAP(() => {
         gsap.registerPlugin(ScrollTrigger);
 
-        const ctx = gsap.context(() => {
-            gsap.from('.end-credit', {
-                scrollTrigger: {
-                    trigger: containerRef.current,
-                    start: "top 60%",
-                },
-                y: 50,
-                opacity: 0,
-                duration: 1,
-                stagger: 0.2,
-                ease: "power3.out"
-            });
-        }, containerRef);
+        gsap.from('.end-credit', {
+            scrollTrigger: {
+                trigger: containerRef.current,
+                start: "top 75%", // Triggers slightly earlier for a smoother reveal
+            },
+            y: 50,
+            opacity: 0,
+            duration: 1,
+            stagger: 0.15,
+            ease: "power3.out"
+        });
+    }, { scope: containerRef }); // useGSAP automatically handles cleanup!
 
-        return () => ctx.revert();
-    }, []);
+    const currentYear = new Date().getFullYear();
 
     return (
-        <section ref={containerRef} className="w-full min-h-screen bg-[var(--background)] flex flex-col justify-center items-center px-6 py-24 font-anton text-white border-t border-neutral-900">
-            <h2 className="text-[12vw] leading-none text-[#E22D35] mix-blend-exclusion end-credit text-center mb-12 select-none">
+        <section 
+            ref={containerRef} 
+            className="w-full min-h-screen bg-black flex flex-col justify-center items-center px-6 py-24 font-sans text-white border-t border-zinc-900"
+        >
+            {/* Keeping your font-anton class for the cinematic heading */}
+            <h2 className="text-[12vw] leading-none text-[#E22D35] font-anton end-credit text-center mb-12 select-none tracking-tight mix-blend-exclusion">
                 THE END
             </h2>
 
             <div className="max-w-2xl text-center space-y-8 end-credit">
-                <p className="text-xl font-sans text-neutral-400 tracking-widest uppercase">
+                <p className="text-xl font-bold text-zinc-400 tracking-[0.3em] uppercase">
                     Interested in a Sequel?
                 </p>
                 <a
-                    href="mailto:contact@production.com"
-                    className="inline-block text-4xl md:text-6xl hover:text-[#E22D35] transition-colors duration-300 border-b-2 border-transparent hover:border-[#E22D35]"
+                    href="mailto:nafilatk7@gmail.com"
+                    className="inline-block text-3xl md:text-5xl font-black hover:text-[#E22D35] transition-all duration-300 border-b-2 border-transparent hover:border-[#E22D35] pb-2"
                 >
-                    CONTACT@STUDIO.COM
+                    nafilatk7@gmail.com
                 </a>
             </div>
 
-            <div className="mt-32 flex gap-12 text-sm text-neutral-500 font-sans tracking-[0.2em] uppercase end-credit">
-                <a href="#" className="hover:text-white transition-colors">Instagram</a>
-                <a href="#" className="hover:text-white transition-colors">Twitter</a>
-                <a href="#" className="hover:text-white transition-colors">LinkedIn</a>
+            {/* Formatted social links with proper URLs and target="_blank" */}
+            <div className="mt-32 flex flex-wrap justify-center gap-8 md:gap-16 text-sm text-zinc-500 font-bold tracking-[0.2em] uppercase end-credit">
+                <a 
+                    href="https://instagram.com/nafilaeaa" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-white hover:-translate-y-1 transition-all duration-300"
+                >
+                    Instagram
+                </a>
+                <a 
+                    href="https://@NafilaTk99314" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-white hover:-translate-y-1 transition-all duration-300"
+                >
+                    Twitter
+                </a>
+                <a 
+                    href="https://linkedin.com/in/Nafilatk" 
+                    target="_blank" 
+                    rel="noopener noreferrer"
+                    className="hover:text-white hover:-translate-y-1 transition-all duration-300"
+                >
+                    LinkedIn
+                </a>
             </div>
 
-            <div className="mt-12 text-xs text-neutral-700 font-sans end-credit">
-                © 2025 NEXT.JS STUDIOS. ALL RIGHTS RESERVED.
+            {/* Dynamic Copyright Year */}
+            <div className="mt-16 text-xs text-zinc-600 font-bold tracking-widest uppercase end-credit">
+                © {currentYear} Nafila TK. ALL RIGHTS RESERVED.
             </div>
         </section>
     );
