@@ -103,7 +103,7 @@ export default function AboutPage() {
             <div ref={textRef} className="space-y-8">
               <p className="about-text text-2xl md:text-3xl font-medium leading-tight text-gray-200">
                 Hi, I'm{" "}
-                <span className="text-red-800 font-bold">
+                <span className="text-red-600 font-bold">
                   Nafila TK
                 </span>.
                 A Frontend Developer orchestrating digital experiences
@@ -123,7 +123,7 @@ export default function AboutPage() {
                 I believe in writing structured, maintainable code that grows with the product.
               </p>
 
-              <div className="about-text h-px w-24 bg-red-800 my-8"></div>
+              <div className="about-text h-px w-24 bg-red-600 my-8"></div>
 
               <h3 className="about-text text-3xl md:text-4xl font-bold italic leading-relaxed">
                 "Code is my canvas, and logic is the brush."
