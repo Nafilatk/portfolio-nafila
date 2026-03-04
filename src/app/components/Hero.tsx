@@ -139,16 +139,15 @@ export default function Hero() {
             <h1 className="text-4xl font-bold tracking-tighter md:text-8xl lg:text-9xl text-gray-200">
               NAFILA
             </h1>
-            <span className="text-4xl font-bold tracking-tighter text-red-600 md:text-8xl lg:text-9xl">
+            <span className="text-4xl md:text-8xl lg:text-9xl font-bold tracking-tighter text-transparent [-webkit-text-stroke:2px_#b91c1c]">
               TK
-            </span>
-          </div>
+            </span>          </div>
 
           <div className="pt-4">
             <p className="text-sm font-medium uppercase tracking-[0.4em] text-gray-500 md:text-base">
               Frontend Developer
             </p>
-            <div className="mt-4 h-[3px] w-12 bg-blue-600"></div>
+            <div className="mt-4 h-[3px] w-12 bg-red-700"></div>
           </div>
         </div>
       </div>
@@ -181,44 +180,46 @@ export default function Hero() {
             onClick={handleFlip}
           >
             <div
-              className={`absolute -inset-2 rounded-3xl bg-blue-500/20 blur-2xl transition-opacity duration-500 ${isHovering ? 'opacity-100' : 'opacity-40'}`}
+              className={`absolute -inset-2  rounded-3xl bg-red-700/55 blur-2xl transition-opacity duration-500 ${isHovering ? 'opacity-100' : 'opacity-40'}`}
               style={{ transform: "translateZ(-20px)" }}
             ></div>
 
             {/* Inner Card Wrapper (Handles 180deg Flip) */}
             <div
               ref={cardInnerRef}
-              className="relative h-[420px] w-[300px] rounded-2xl shadow-2xl"
+              className="relative  h-[420px] w-[300px] rounded-2xl shadow-2xl"
               style={{ transformStyle: "preserve-3d" }}
             >
 
               {/* === FRONT OF CARD === */}
               <div
-                className="absolute inset-0 overflow-hidden rounded-2xl bg-black p-3 backdrop-blur-xl border border-red-700/50"
+                className="absolute inset-0 overflow-hidden rounded-2xl bg-black  backdrop-blur-xl border border-red-700/50"
                 style={{ backfaceVisibility: "hidden" }}
               >
-                <div className="relative h-[75%] w-full overflow-hidden rounded-xl bg-gray-100">
+                <div className="relative h-full w-full overflow-hidden rounded-xl">
                   <img
                     src="/heroimage.jpeg"
                     alt="Nafila TK"
-                    className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0"
-                  />
-                  <div className="absolute inset-0 "></div>
+                    className="h-full w-full object-cover grayscale transition-all duration-500 group-hover:grayscale-0 scale-[1.55]" />
+                </div>
+                <div className="absolute top-6 left-6 right-6">
+                  <h2 className="text-2xl font-bold tracking-tight text-gray-300">
+                    Nafila{" "}
+                    <span className="text-2xl md:text-2xl lg:text-2xl tracking-tighter text-transparent [-webkit-text-stroke:1px_#b91c1c]">
+                      TK
+                    </span>
+                  </h2>
+                  <p className="text-lg font-medium text-red-800 mt-0.5">Frontend Developer</p>
                 </div>
 
-                <div className="absolute bottom-6 left-6 right-6">
-                  <h2 className="text-2xl font-bold tracking-tight text-gray-300">Nafila TK</h2>
-                  <p className="text-sm font-medium text-red-800 mt-0.5">Frontend Developer</p>
-                </div>
-
-                <div
+                {/* <div
                   ref={glareRef}
                   className="pointer-events-none absolute inset-0 rounded-2xl opacity-0 mix-blend-overlay transition-opacity duration-300"
                   style={{
                     background: "radial-gradient(circle at 50% 50%, rgba(255,255,255,0.8) 0%, rgba(255,255,255,0) 60%)",
                     transform: "scale(2)",
                   }}
-                ></div>
+                ></div> */}
               </div>
 
               {/* === BACK OF CARD === */}
@@ -228,11 +229,11 @@ export default function Hero() {
               >
                 <div className="flex items-center justify-between mb-6">
                   <div className="w-12 h-12 bg-red-600/20 rounded-full flex items-center justify-center">
-                    <span className=" font-bold text-red-800">NT</span>
+                    <span className=" font-bold text-red-700">NT</span>
                   </div>
                   <div className="text-right">
                     <p className="text-[10px] text-gray-400 uppercase tracking-widest">Access Level</p>
-                    <p className="text-sm font-bold text-red-800">ADMIN</p>
+                    <p className="text-sm font-bold text-red-700">ADMIN</p>
                   </div>
                 </div>
 

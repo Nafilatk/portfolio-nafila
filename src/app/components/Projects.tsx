@@ -18,7 +18,7 @@ export default function ProjectCard({ index, title, tech, desc, url }: ProjectPr
       className="block outline-none w-[85vw] md:w-[450px] shrink-0"
     >
       <div className="project-card group cursor-pointer border-t-2 border-zinc-800 pt-8 pb-8 transition-colors hover:border-red-600 h-full flex flex-col justify-start">
-        <span className="text-red-600 font-mono text-lg font-bold">
+        <span className="text-red-700 font-mono text-lg font-bold">
           0{index + 1}
         </span>
         <h4 className="text-4xl md:text-5xl text-white font-black mt-4 group-hover:translate-x-4 transition-transform duration-500 uppercase tracking-tight">

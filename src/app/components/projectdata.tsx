@@ -81,12 +81,12 @@ export default function HorizontalProjects() {
         {/* Intro / Header Panel */}
         <div className="w-[85vw] md:w-[400px] shrink-0">
           <h2 className="text-5xl md:text-7xl font-black text-white tracking-tight leading-none">
-            Selected <br/> <span className="text-red-600">Works</span>
+            Selected <br/> <span className="text-red-700">Works</span>
           </h2>
           <p className="text-zinc-400 mt-6 text-lg">
             Scroll to explore my recent projects, highlighting expertise in scalable architectures and engaging user interfaces.
           </p>
-          <div className="mt-8 h-1 w-24 bg-red-600"></div>
+          <div className="mt-8 h-1 w-24 bg-red-700"></div>
         </div>
 
         {/* Project Cards */}
