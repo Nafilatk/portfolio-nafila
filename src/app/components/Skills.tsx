@@ -1,21 +1,17 @@
 "use client";
 
-import React, { useRef, useState } from "react";
-import { motion } from "framer-motion";
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { 
   Code2, 
   Palette, 
   Sparkles, 
   Brain, 
-  Cpu, 
   Wrench,
-  Globe,
   Zap,
   Box,
-  Layers,
-  Figma,
-  Smartphone,
-  ChevronRight
+  ChevronRight,
+  X
 } from "lucide-react";
 
 const skillGroups = [
@@ -36,7 +32,7 @@ const skillGroups = [
     gradient: "from-purple-500/20 to-pink-500/20"
   },
   {
-    title: "Frameworks and Libraries",
+    title: "Frameworks & Libraries",
     icon: <Box className="w-5 h-5" />,
     color: "from-green-500 to-emerald-500",
     skills: ["Next.js 14", "React.js", "GSAP", "Three.js"],
@@ -47,36 +43,33 @@ const skillGroups = [
     title: "State Management",
     icon: <Brain className="w-5 h-5" />,
     color: "from-orange-500 to-red-500",
-    skills: ["Redux", "Redux Toolkit", "Zustand", "Context API"],
+    skills: ["Redux Toolkit", "Zustand", "Context API", "React Query"],
     description: "Efficiently managing application state and data flow",
     gradient: "from-orange-500/20 to-red-500/20"
   },
   {
-    title: "Performance & Optimization",
+    title: "Performance & SEO",
     icon: <Zap className="w-5 h-5" />,
     color: "from-yellow-500 to-amber-500",
-    skills: ["Web Vitals", "Lazy Loading", "Code Splitting", "SEO"],
+    skills: ["Web Vitals", "Lazy Loading", "Code Splitting", "Next SEO"],
     description: "Ensuring fast, efficient, and optimized user experiences",
     gradient: "from-yellow-500/20 to-amber-500/20"
   },
   {
-    title: "Other Tools",
+    title: "Workflow & Tools",
     icon: <Wrench className="w-5 h-5" />,
     color: "from-indigo-500 to-purple-500",
-    skills: ["C++", "Python", "Git", "AI Tools", "VS Code"],
-    description: "Additional tools and technologies in my workflow",
+    skills: ["Git", "GitHub Actions", "AI Tools", "VS Code"],
+    description: "Additional tools and technologies in my daily workflow",
     gradient: "from-indigo-500/20 to-purple-500/20"
   },
 ];
 
-// Animation variants
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
-    transition: {
-      staggerChildren: 0.1
-    }
+    transition: { staggerChildren: 0.1 }
   }
 };
 
@@ -98,34 +91,25 @@ export default function Skills() {
   const [selectedSkill, setSelectedSkill] = useState<string | null>(null);
 
   return (
-    <section id="skills" className="relative text-white py-20 overflow-hidden">
-      {/* Animated background */}
-      <div className="absolute inset-0 bg-gradient-to-b from-black via-zinc-900 to-black">
-        <div className="absolute inset-0 opacity-30">
-          {[...Array(20)].map((_, i) => (
-            <motion.div
-              key={i}
-              className="absolute w-1 h-1 bg-red-500 rounded-full"
-              initial={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-              }}
-              animate={{
-                x: Math.random() * window.innerWidth,
-                y: Math.random() * window.innerHeight,
-                transition: {
-                  duration: Math.random() * 10 + 10,
-                  repeat: Infinity,
-                  ease: "linear"
-                }
-              }}
-            />
-          ))}
-        </div>
+    <section id="skills" className="relative min-h-screen bg-slate-950 text-white py-24 overflow-hidden">
+      
+      {/* Animated Background */}
+      <div className="absolute inset-0 overflow-hidden pointer-events-none z-0">
+        <motion.div 
+          animate={{ scale: [1, 1.2, 1], opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: 8, repeat: Infinity, ease: "easeInOut" }}
+          className="absolute -top-[20%] -left-[10%] w-[50%] h-[50%] rounded-full bg-red-600/20 blur-[120px]" 
+        />
+        <motion.div 
+          animate={{ scale: [1, 1.3, 1], opacity: [0.1, 0.2, 0.1] }}
+          transition={{ duration: 10, repeat: Infinity, ease: "easeInOut", delay: 1 }}
+          className="absolute top-[60%] -right-[10%] w-[40%] h-[60%] rounded-full bg-blue-600/10 blur-[120px]" 
+        />
       </div>
 
       <div className="container relative z-10 mx-auto px-6 md:px-12 lg:px-24">
-        {/* Header with animated elements */}
+        
+        {/* Header Section */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -189,30 +173,27 @@ export default function Skills() {
             <motion.article
               key={group.title}
               variants={itemVariants}
-              onHoverStart={() => setHoveredCard(index)}
-              onHoverEnd={() => setHoveredCard(null)}
-              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.02] to-white/[0.05] p-6 transition-all duration-500 hover:scale-[1.02] hover:border-red-500/50 hover:shadow-2xl hover:shadow-red-500/10"
+              onMouseEnter={() => setHoveredCard(index)}
+              onMouseLeave={() => setHoveredCard(null)}
+              className="group relative overflow-hidden rounded-2xl border border-white/10 bg-white/[0.02] p-6 transition-all duration-500 hover:scale-[1.02] hover:border-red-500/50 hover:shadow-2xl hover:shadow-red-500/10"
             >
-              {/* Animated gradient background */}
+              {/* Animated gradient background inside card */}
               <motion.div
                 className={`absolute inset-0 opacity-0 bg-gradient-to-br ${group.gradient} transition-opacity duration-500`}
-                animate={{
-                  opacity: hoveredCard === index ? 0.15 : 0
-                }}
+                animate={{ opacity: hoveredCard === index ? 0.15 : 0 }}
               />
               
-              {/* Glowing orb effect */}
+              {/* Glowing orb effect inside card */}
               <motion.div
-                className="absolute -right-10 -top-10 w-40 h-40 bg-red-500/10 rounded-full blur-3xl"
+                className="absolute -right-10 -top-10 w-40 h-40 bg-red-500/20 rounded-full blur-3xl pointer-events-none"
                 animate={{
                   scale: hoveredCard === index ? 1.2 : 1,
-                  opacity: hoveredCard === index ? 0.3 : 0.1
+                  opacity: hoveredCard === index ? 0.5 : 0.1
                 }}
                 transition={{ duration: 0.5 }}
               />
 
               <div className="relative z-10">
-                {/* Header with icon */}
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-3">
                     <motion.div 
@@ -223,34 +204,30 @@ export default function Skills() {
                       }}
                       transition={{ duration: 0.5 }}
                     >
-                      <div className="text-white">
-                        {group.icon}
-                      </div>
+                      <div className="text-white">{group.icon}</div>
                     </motion.div>
                     <h3 className="text-xl font-bold bg-gradient-to-r from-white to-gray-400 bg-clip-text text-transparent">
                       {group.title}
                     </h3>
                   </div>
                   
-                  {/* Interactive indicator */}
                   <motion.div
                     animate={{
                       x: hoveredCard === index ? 5 : 0,
-                      opacity: hoveredCard === index ? 1 : 0.5
+                      opacity: hoveredCard === index ? 1 : 0.3
                     }}
                   >
                     <ChevronRight className="w-5 h-5 text-red-400" />
                   </motion.div>
                 </div>
 
-                {/* Description */}
-                <p className="text-sm text-gray-500 mb-4 line-clamp-2 group-hover:text-gray-400 transition-colors">
+                <p className="text-sm text-gray-500 mb-6 line-clamp-2 group-hover:text-gray-300 transition-colors">
                   {group.description}
                 </p>
 
-                {/* Skills with interactive tags */}
+                {/* Skill Tags */}
                 <div className="flex flex-wrap gap-2">
-                  {group.skills.map((skill, skillIndex) => (
+                  {group.skills.map((skill) => (
                     <motion.button
                       key={skill}
                       onClick={() => setSelectedSkill(skill)}
@@ -261,82 +238,71 @@ export default function Skills() {
                       <span className="relative z-10 block px-3 py-1.5 text-xs font-medium rounded-full border border-white/10 bg-black/40 text-gray-300 transition-all duration-300 group-hover/btn:border-red-500/50 group-hover/btn:bg-red-500/10 group-hover/btn:text-red-300">
                         {skill}
                       </span>
-                      <motion.span
-                        className="absolute inset-0 bg-gradient-to-r from-red-500/0 via-red-500/20 to-red-500/0"
-                        initial={{ x: "-100%" }}
-                        whileHover={{ x: "100%" }}
-                        transition={{ duration: 0.5 }}
-                      />
                     </motion.button>
                   ))}
                 </div>
 
-                {/* Progress indicator (decorative) */}
+                {/* Progress indicator border */}
                 <motion.div 
-                  className="absolute bottom-0 left-0 h-0.5 bg-gradient-to-r from-red-500 to-red-300"
+                  className="absolute bottom-0 left-0 h-[2px] bg-gradient-to-r from-red-500 to-red-300"
                   initial={{ width: 0 }}
-                  animate={{
-                    width: hoveredCard === index ? "100%" : "0%"
-                  }}
-                  transition={{ duration: 0.5 }}
+                  animate={{ width: hoveredCard === index ? "100%" : "0%" }}
+                  transition={{ duration: 0.4 }}
                 />
               </div>
             </motion.article>
           ))}
         </motion.div>
 
-        {/* Interactive floating stats */}
+        {/* Floating Stats */}
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
+          transition={{ duration: 0.8, delay: 0.4 }}
           viewport={{ once: true }}
-          className="mt-16 flex flex-wrap justify-center gap-8"
+          className="mt-20 flex flex-wrap justify-center gap-12 md:gap-24"
         >
-          <div className="text-center">
-            <motion.div 
-              className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-300 bg-clip-text text-transparent"
-              animate={{ scale: [1, 1.1, 1] }}
-              transition={{ duration: 2, repeat: Infinity }}
-            >
-              20+
-            </motion.div>
-            <div className="text-sm text-gray-500 mt-1">Technologies Mastered</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-300 bg-clip-text text-transparent">
-              3+
+          {[
+            { value: "20+", label: "Technologies Mastered" },
+            { value: "3+", label: "Years Experience" },
+            { value: "50+", label: "Projects Completed" }
+          ].map((stat, i) => (
+            <div key={i} className="text-center">
+              <motion.div 
+                className="text-4xl font-bold bg-gradient-to-r from-red-500 to-red-300 bg-clip-text text-transparent mb-2"
+                whileHover={{ scale: 1.1 }}
+              >
+                {stat.value}
+              </motion.div>
+              <div className="text-sm font-medium text-gray-500 uppercase tracking-wider">{stat.label}</div>
             </div>
-            <div className="text-sm text-gray-500 mt-1">Years Experience</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold bg-gradient-to-r from-red-500 to-red-300 bg-clip-text text-transparent">
-              50+
-            </div>
-            <div className="text-sm text-gray-500 mt-1">Projects Completed</div>
-          </div>
+          ))}
         </motion.div>
 
-        {/* Selected skill modal (optional) */}
-        {selectedSkill && (
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: 20 }}
-            className="fixed bottom-4 right-4 bg-gradient-to-r from-red-500 to-red-600 text-white px-6 py-3 rounded-lg shadow-2xl"
-          >
-            <div className="flex items-center gap-3">
-              <Sparkles className="w-5 h-5" />
-              <span>Selected: {selectedSkill}</span>
+        {/* Selected Skill Toast/Modal */}
+        <AnimatePresence>
+          {selectedSkill && (
+            <motion.div
+              initial={{ opacity: 0, y: 50, scale: 0.9 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              exit={{ opacity: 0, y: 20, scale: 0.9 }}
+              className="fixed bottom-8 right-8 z-50 bg-gradient-to-r from-slate-900 to-slate-800 border border-red-500/20 text-white px-6 py-4 rounded-xl shadow-2xl flex items-center gap-4"
+            >
+              <Sparkles className="w-5 h-5 text-red-400" />
+              <div className="flex flex-col">
+                <span className="text-xs text-gray-400 uppercase tracking-wider">Technology Selected</span>
+                <span className="font-semibold">{selectedSkill}</span>
+              </div>
               <button 
                 onClick={() => setSelectedSkill(null)}
-                className="ml-4 text-white/80 hover:text-white"
+                className="ml-4 p-1 rounded-md text-gray-400 hover:text-white hover:bg-white/10 transition-colors"
               >
-                ×
+                <X className="w-5 h-5" />
               </button>
-            </div>
-          </motion.div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
       </div>
     </section>
   );
