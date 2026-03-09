@@ -26,8 +26,8 @@ const italianno = Italianno({
 });
 
 export const metadata: Metadata = {
-  title: "CINE DAILY - Deadpool",
-  description: "Deadpool movie portfolio theme",
+  title: "Nafila tk",
+  description: "Frontend Developer",
 };
 
 export default function RootLayout({
